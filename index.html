@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Markdown Memo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <h1>Markdown Memo</h1>
+      <button id="newMemoButton" class="primary-button" type="button">
+        ＋ 新規メモ
+      </button>
+    </header>
+
+    <div class="layout">
+      <aside id="sidebar" class="sidebar" aria-label="メモ一覧">
+        <button
+          id="sidebarToggle"
+          class="sidebar-toggle"
+          type="button"
+          aria-expanded="true"
+          aria-controls="sidebarContent"
+        >
+          メモ一覧を閉じる
+        </button>
+
+        <div id="sidebarContent">
+          <section class="folder-section">
+            <div class="section-heading">
+              <h2>フォルダ</h2>
+              <button
+                id="newFolderButton"
+                type="button"
+                aria-label="フォルダを作成"
+              >
+                ＋
+              </button>
+            </div>
+
+            <div id="folderList" class="folder-list"></div>
+          </section>
+
+          <section class="memo-section">
+            <div class="section-heading">
+              <h2>メモ</h2>
+              <span id="memoCount"></span>
+            </div>
+
+            <label class="search-box">
+              <span class="sr-only">メモを検索</span>
+              <input id="searchInput" type="search" placeholder="メモを検索">
+            </label>
+
+            <div id="memoList" class="memo-list"></div>
+          </section>
+        </div>
+      </aside>
+
+      <section class="editor-panel" aria-label="メモ編集">
+        <div class="editor-header">
+          <div>
+            <span id="currentFolderName" class="folder-label"></span>
+            <span id="saveStatus" class="save-status">保存済み</span>
+          </div>
+
+          <div class="editor-actions">
+            <button id="copyButton" class="primary-button" type="button">
+              コピー
+            </button>
+            <button id="deleteButton" class="delete-button" type="button">
+              削除
+            </button>
+          </div>
+        </div>
+
+        <div id="emptyState" class="empty-state">
+          <p>メモを選択するか、新しいメモを作成してください。</p>
+          <button id="emptyNewMemoButton" class="primary-button" type="button">
+            新規メモを作成
+          </button>
+        </div>
+
+        <article id="editor" class="note" hidden>
+          <label class="sr-only" for="titleInput">タイトル</label>
+
+          <input
+            id="titleInput"
+            class="title-input"
+            type="text"
+            placeholder="タイトル"
+            autocomplete="off"
+          >
+
+          <div class="toolbar" aria-label="Markdown入力補助">
+            <button type="button" data-insert="## ">見出し2</button>
+            <button type="button" data-insert="### ">見出し3</button>
+            <button type="button" data-insert="---">区切り線</button>
+            <button type="button" data-insert="- ">箇条書き</button>
+            <button type="button" data-insert="1. ">番号付き</button>
+            <button type="button" data-insert="&gt; ">引用</button>
+            <button type="button" data-wrap="**">太字</button>
+            <button type="button" data-insert="[リンク文字](URL)">リンク</button>
+            <button type="button" data-insert="```\n\n```">コード</button>
+          </div>
+
+          <textarea
+            id="contentInput"
+            class="content-input"
+            placeholder="本文をMarkdown形式で入力してください"
+            spellcheck="false"
+          ></textarea>
+
+          <footer class="note-footer">
+            <label class="move-folder">
+              フォルダ
+              <select id="folderSelect"></select>
+            </label>
+
+            <span id="dateInfo"></span>
+          </footer>
+        </article>
+      </section>
+    </div>
+
+    <p id="message" class="message" role="status" aria-live="polite"></p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
