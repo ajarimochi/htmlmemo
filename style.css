@@ -188,12 +188,21 @@ select:focus-visible {
 
 .memo-item {
   display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding: .65rem .7rem;
+  overflow: hidden;
+  text-align: left;
+  background: transparent;
+  border-color: transparent;
 }
 
 .memo-item-title {
   display: block;
+  width: 100%;
+  max-width: 100%;
   overflow: hidden;
-  font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -203,6 +212,13 @@ select:focus-visible {
   margin-top: .2rem;
   color: var(--muted);
   font-size: .75rem;
+}
+
+.empty-list {
+  margin: .8rem 0;
+  color: var(--muted);
+  font-size: .85rem;
+  text-align: center;
 }
 
 .search-box {
@@ -253,33 +269,12 @@ select:focus-visible {
   border-color: transparent;
 }
 
-.empty-state {
-  display: grid;
-  min-height: 550px;
-  place-items: center;
-  align-content: center;
-  gap: .8rem;
-  color: var(--muted);
-  text-align: center;
-}
-
 .note {
   position: relative;
   overflow: hidden;
   background-color: var(--paper);
   border: 1px solid var(--border);
   border-radius: 4px;
-}
-
-.note::before {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 42px;
-  width: 1px;
-  content: "";
-  background: rgba(202, 106, 106, .55);
-  pointer-events: none;
 }
 
 .title-input,
@@ -300,9 +295,12 @@ select:focus-visible {
 
 .title-input {
   height: 74px;
-  padding: 1.5rem 2rem 1rem 72px;
+  padding: 1rem 2rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
   color: var(--accent-dark);
-  font-size: 1.35rem;
+  font-size: 1rem;
   font-weight: 700;
 }
 
@@ -324,7 +322,7 @@ select:focus-visible {
 
 .content-input {
   min-height: 510px;
-  padding: 1.2rem 2rem 1.5rem 72px;
+  padding: 1.2rem 2rem 1rem 2rem ;
   color: var(--text);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 1rem;
@@ -386,7 +384,7 @@ select:focus-visible {
   }
 
   .sidebar {
-    padding: .7rem;
+    padding: 0;
     border-right: 0;
     border-bottom: 1px solid var(--border);
   }
@@ -434,10 +432,6 @@ select:focus-visible {
 
   .app-header button {
     width: 100%;
-  }
-
-  .note::before {
-    left: 24px;
   }
 
   .title-input,
