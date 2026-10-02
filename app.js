@@ -3,7 +3,6 @@
 const STORAGE_KEY = "markdown-memo-app:v2";
 
 const newMemoButton = document.querySelector("#newMemoButton");
-const emptyNewMemoButton = document.querySelector("#emptyNewMemoButton");
 const newFolderButton = document.querySelector("#newFolderButton");
 const sidebar = document.querySelector("#sidebar");
 const sidebarToggle = document.querySelector("#sidebarToggle");
@@ -14,7 +13,6 @@ const memoCount = document.querySelector("#memoCount");
 const searchInput = document.querySelector("#searchInput");
 
 const editor = document.querySelector("#editor");
-const emptyState = document.querySelector("#emptyState");
 const titleInput = document.querySelector("#titleInput");
 const contentInput = document.querySelector("#contentInput");
 const folderSelect = document.querySelector("#folderSelect");
@@ -32,10 +30,13 @@ let selectedMemoId = state.memos[0]?.id || null;
 let selectedFolderId = "all";
 let saveTimer = null;
 
+if (state.memos.length === 0) {
+  createInitialMemo();
+}
+
 render();
 
 newMemoButton.addEventListener("click", createMemo);
-emptyNewMemoButton.addEventListener("click", createMemo);
 newFolderButton.addEventListener("click", createFolder);
 sidebarToggle.addEventListener("click", toggleSidebar);
 
@@ -130,6 +131,23 @@ function saveState() {
     console.error("データの保存に失敗しました", error);
     saveStatus.textContent = "保存できません";
   }
+}
+
+function createInitialMemo() {
+  const now = new Date().toISOString();
+
+  const memo = {
+    id: createId("memo"),
+    title: "",
+    content: "",
+    folderId: "inbox",
+    createdAt: now,
+    updatedAt: now
+  };
+
+  state.memos.push(memo);
+  selectedMemoId = memo.id;
+  saveState();
 }
 
 function createId(prefix) {
@@ -270,14 +288,11 @@ function renderEditor() {
   const memo = getSelectedMemo();
 
   if (!memo) {
-    editor.hidden = true;
-    emptyState.hidden = false;
-    currentFolderName.textContent = "";
+    createInitialMemo();
+    renderMemoList();
+    renderEditor();
     return;
   }
-
-  editor.hidden = false;
-  emptyState.hidden = true;
 
   titleInput.value = memo.title;
   contentInput.value = memo.content;
@@ -330,9 +345,6 @@ function updateSelectedMemo() {
   if (!memo) {
     return;
   }
-
-  emptyState.hidden = true;
-  editor.hidden = false;
 
   memo.title = titleInput.value;
   memo.content = contentInput.value;
@@ -417,7 +429,13 @@ function deleteSelectedMemo() {
   }
 
   state.memos = state.memos.filter((item) => item.id !== memo.id);
-  selectedMemoId = state.memos[0]?.id || null;
+  selectedMemoId = null;
+
+  if (state.memos.length === 0) {
+    createInitialMemo();
+  } else {
+    selectedMemoId = state.memos[0].id;
+  }
 
   saveState();
   render();
@@ -425,14 +443,17 @@ function deleteSelectedMemo() {
 }
 
 function insertText(text) {
+  const normalizedText = text.replace(/\\n/g, "\n");
   const start = contentInput.selectionStart;
   const end = contentInput.selectionEnd;
   const current = contentInput.value;
 
   contentInput.value =
-    current.slice(0, start) + text + current.slice(end);
+    current.slice(0, start) +
+    normalizedText +
+    current.slice(end);
 
-  const cursorPosition = start + text.length;
+  const cursorPosition = start + normalizedText.length;
 
   contentInput.focus();
   contentInput.setSelectionRange(cursorPosition, cursorPosition);
