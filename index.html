@@ -76,14 +76,7 @@
           </div>
         </div>
 
-        <div id="emptyState" class="empty-state">
-          <p>メモを選択するか、新しいメモを作成してください。</p>
-          <button id="emptyNewMemoButton" class="primary-button" type="button">
-            新規メモを作成
-          </button>
-        </div>
-
-        <article id="editor" class="note" hidden>
+        <article id="editor" class="note">
           <label class="sr-only" for="titleInput">タイトル</label>
 
           <input
@@ -95,15 +88,15 @@
           >
 
           <div class="toolbar" aria-label="Markdown入力補助">
-            <button type="button" data-insert="## ">見出し2</button>
-            <button type="button" data-insert="### ">見出し3</button>
-            <button type="button" data-insert="---">区切り線</button>
-            <button type="button" data-insert="- ">箇条書き</button>
-            <button type="button" data-insert="1. ">番号付き</button>
-            <button type="button" data-insert="&gt; ">引用</button>
+            <button type="button" data-insert="\n## ">見出し2</button>
+            <button type="button" data-insert="\n### ">見出し3</button>
+            <button type="button" data-insert="\n---\n">区切り線</button>
+            <button type="button" data-insert="\n- \n- \n- ">箇条書き</button>
+            <button type="button" data-insert="\n1. \n2. \n3. ">番号付き</button>
+            <button type="button" data-insert="\n&gt; ">引用</button>
             <button type="button" data-wrap="**">太字</button>
             <button type="button" data-insert="[リンク文字](URL)">リンク</button>
-            <button type="button" data-insert="```\n\n```">コード</button>
+            <button type="button" data-insert="\n```\n\n```\n">コード</button>
           </div>
 
           <textarea
